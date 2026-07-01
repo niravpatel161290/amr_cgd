@@ -16,6 +16,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root{
+  --accent:var(--gas);
   --gas:#e8923a; --alert:#e6435f; --warn:#d6a52a; --ok:#2bb673;
   --font-display:'IBM Plex Sans', Arial, sans-serif;
   --font-mono:'IBM Plex Mono','Courier New', monospace;
@@ -293,6 +294,72 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
   .brand-logo{height:20px;}
   .d-stats{grid-template-columns:1fr 1fr;}
 }
+
+/* ===== Customer Registry ===== */
+.cat-tabs{display:flex; gap:0; background:var(--panel-3); border:1px solid var(--line); border-radius:9px; padding:3px; margin-bottom:16px; width:fit-content;}
+.cat-tab{padding:8px 20px; border-radius:7px; font-size:12.5px; font-weight:500; cursor:pointer; color:var(--muted); transition:all .15s;}
+.cat-tab.active{background:var(--panel); color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.cust-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px;}
+.cust-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; cursor:pointer; transition:border-color .15s, box-shadow .15s;}
+.cust-card:hover{border-color:var(--gas); box-shadow:0 4px 16px rgba(0,0,0,.12);}
+.cust-card .cc-top{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:8px;}
+.cust-card .cc-name{font-size:13.5px; font-weight:600; line-height:1.3;}
+.cust-card .cc-addr{font-size:11px; color:var(--muted); margin-top:3px; display:flex; align-items:flex-start; gap:4px;}
+.cust-card .cc-addr svg{width:11px; height:11px; flex-shrink:0; margin-top:1px;}
+.cust-card .cc-meta{display:flex; gap:14px; margin-top:10px; font-family:var(--font-mono); font-size:11px; color:var(--text-dim);}
+.cust-card .cc-meta span b{color:var(--text);}
+.mini-bars{display:flex; align-items:flex-end; gap:2px; height:40px; margin-top:10px;}
+.mini-bar{flex:1; border-radius:2px 2px 0 0; min-height:2px; transition:height .3s;}
+.mini-bar-label{display:flex; gap:2px; margin-top:4px;}
+.mini-bar-label span{flex:1; font-size:7.5px; color:var(--muted); text-align:center; font-family:var(--font-mono);}
+.cust-summary{background:var(--panel-3); border-radius:8px; padding:10px 14px; margin-top:12px; font-size:11.5px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+.cust-summary .cs-item .l{font-size:9.5px; color:var(--muted); font-family:var(--font-mono); text-transform:uppercase;}
+.cust-summary .cs-item .v{font-family:var(--font-mono); font-weight:600; font-size:14px; margin-top:2px;}
+@media(max-width:760px){ .cust-cards{grid-template-columns:1fr;} }
+
+
+/* ===== Notification Panel ===== */
+.notif-panel{
+  position:fixed; top:58px; right:14px; width:360px; max-height:520px;
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4); z-index:9999;
+  display:none; flex-direction:column; overflow:hidden;
+  animation:notif-in .18s ease;
+}
+@keyframes notif-in{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.notif-panel.open{display:flex;}
+.notif-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px 12px; border-bottom:1px solid var(--line); flex-shrink:0;
+}
+.notif-head h4{font-size:13.5px; font-weight:600;}
+.notif-head-right{display:flex; align-items:center; gap:10px;}
+.notif-clear{font-size:11px; color:var(--muted); cursor:pointer; font-family:var(--font-mono); padding:3px 8px; border-radius:5px;}
+.notif-clear:hover{background:var(--panel-3); color:var(--text);}
+.notif-close{color:var(--muted); cursor:pointer; font-size:14px; padding:2px 6px; border-radius:5px;}
+.notif-close:hover{background:var(--panel-3); color:var(--text);}
+.notif-badge{font-size:10px; font-family:var(--font-mono); background:var(--alert); color:#fff; padding:1px 6px; border-radius:10px;}
+.notif-tabs{display:flex; gap:0; padding:8px 12px 0; flex-shrink:0;}
+.notif-tab{font-size:11.5px; font-family:var(--font-mono); padding:6px 13px; border-radius:6px 6px 0 0; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent;}
+.notif-tab.active{color:var(--text); border-bottom-color:var(--accent);}
+.notif-list{overflow-y:auto; flex:1; padding:4px 0;}
+.notif-list::-webkit-scrollbar{width:4px;}
+.notif-list::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+.notif-item{
+  display:flex; align-items:flex-start; gap:10px; padding:11px 16px;
+  border-bottom:1px solid var(--line); cursor:pointer; transition:background .1s;
+}
+.notif-item:hover{background:var(--panel-3);}
+.notif-item:last-child{border-bottom:none;}
+.notif-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px;}
+.notif-body{flex:1; min-width:0;}
+.notif-body b{font-size:12.5px; display:block;}
+.notif-body .nm{font-size:11px; color:var(--muted); font-family:var(--font-mono); margin-top:2px;}
+.notif-body .nt{font-size:10.5px; color:var(--muted); font-family:var(--font-mono); margin-top:3px;}
+.notif-empty{padding:32px 16px; text-align:center; color:var(--muted); font-size:12px;}
+.notif-overlay{position:fixed; inset:0; z-index:9998; display:none;}
+.notif-overlay.open{display:block;}
+
 </style>
 </head>
 <body>
@@ -308,7 +375,7 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
     <div class="glabel">Monitor</div>
     <div class="navitem active" data-view="overview" data-label="Overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Overview</span></div>
     <div class="navitem" data-view="map" data-label="Map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Z"/><path d="M9 4v14M15 6.5v14"/></svg><span>India Map</span></div>
-    <div class="navitem" data-view="meters" data-label="Meters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4v17"/></svg><span>Meters</span></div>
+    <div class="navitem" data-view="meters" data-label="Customers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Customers</span></div>
   </div>
 
   <div class="navgroup">
@@ -343,34 +410,39 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
         <button class="active" data-theme="dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg><span class="tt-label">Dark</span></button>
         <button data-theme="light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg><span class="tt-label">Light</span></button>
       </div>
-      <div class="iconbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="ping" id="bellPing"></span></div>
+      <div class="iconbtn" id="bellBtn" style="position:relative"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="ping" id="bellPing"></span></div>
     </div>
   </div>
 
   <div class="content">
 
     <!-- OVERVIEW -->
-    <div class="view active" id="view-overview">
+        <div class="view active" id="view-overview">
       <div class="page-head">
         <div><h2><span class="live-dot"></span>Gas Network Overview</h2><p>City Gas Distribution — real-time AMR telemetry (simulated demo feed)</p></div>
         <div class="live-tag" id="clock1">--:--:--</div>
       </div>
-      <div class="panel" style="margin-bottom:14px; padding:12px 16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <span class="freshness-tag"><i></i>Smart meters sync hourly</span>
-        <span class="freshness-tag"><i style="background:var(--gas)"></i>Legacy AMR meters sync daily</span>
-        <span style="font-size:11.5px; color:var(--muted);">Values shown here update on each device's real sync cadence — this demo replays a live tick every 1.8s purely for visualization.</span>
-      </div>
       <div class="kpis" id="kpiRow"></div>
+
       <div class="grid2" style="margin-bottom:14px;">
-        <div class="panel"><h3>Network draw — last 24 intervals <span class="tag">SCMH</span></h3><canvas id="chartGas"></canvas></div>
-        <div class="panel"><h3>Live event feed <span class="tag">streaming</span></h3><div class="feed" id="feedOverview"></div></div>
+        <div class="panel"><h3>Monthly Consumption <span class="tag">SCMH</span></h3><canvas id="chartMonthly" style="max-height:210px;"></canvas></div>
+        <div class="panel"><h3>Consumption by Category</h3><canvas id="chartCategory" style="max-height:210px;"></canvas></div>
       </div>
-      <div class="grid2">
-        <div class="panel"><h3>Draw by city</h3><div id="cityBars"></div></div>
+
+      <div class="grid2" style="margin-bottom:14px;">
         <div class="panel">
-          <h3>Top consuming meters <span class="tag">SCMH</span></h3>
-          <table><thead><tr><th>Meter ID</th><th>City</th><th>Flow</th><th>Status</th></tr></thead><tbody id="topMetersTable"></tbody></table>
+          <h3>Top 5 Consuming Customers <span class="tag" style="color:var(--gas)">SCMH</span></h3>
+          <table><thead><tr><th>#</th><th>Customer</th><th>City</th><th>Category</th><th>Flow (SCMH)</th><th>Status</th></tr></thead><tbody id="top5Table"></tbody></table>
         </div>
+        <div class="panel">
+          <h3>Least 5 Consuming Customers <span class="tag">lowest flow</span></h3>
+          <table><thead><tr><th>#</th><th>Customer</th><th>City</th><th>Category</th><th>Flow (SCMH)</th><th>Status</th></tr></thead><tbody id="least5Table"></tbody></table>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel"><h3>Draw by city <span class="tag">SCMH</span></h3><div id="cityBars"></div></div>
+        <div class="panel"><h3>Live event feed <span class="tag">streaming</span></h3><div class="feed" id="feedOverview"></div></div>
       </div>
     </div>
 
@@ -395,8 +467,8 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
     <!-- METERS -->
     <div class="view" id="view-meters">
       <div class="page-head">
-        <div><h2>Meters</h2><p>All registered gas AMR endpoints, grouped by city</p></div>
-        <div class="live-tag" id="invCountTag">0 meters</div>
+        <div><h2>Customers</h2><p>All registered AMR endpoints — Industrial, Commercial, Residential and Bulk</p></div>
+        <div class="live-tag" id="invCountTag">0 customers</div>
       </div>
       <div class="toolbar">
         <div class="seg" id="viewModeSeg">
@@ -411,7 +483,14 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
           <option value="alert">Alert</option>
           <option value="off">Offline</option>
         </select>
-        <input type="text" id="meterSearch" placeholder="Search meter ID...">
+        <select id="typeFilter">
+          <option value="all">All categories</option>
+          <option value="Industrial">Industrial</option>
+          <option value="Commercial">Commercial</option>
+          <option value="Residential">Residential</option>
+          <option value="Bulk">Bulk</option>
+        </select>
+        <input type="text" id="meterSearch" placeholder="Search customer name or ID…">
       </div>
       <div id="meterListWrap"></div>
     </div>
@@ -460,6 +539,8 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
       </div>
     </div>
 
+
+    <!-- CUSTOMERS -->
     <!-- SETTINGS -->
     <div class="view" id="view-settings">
       <div class="page-head"><div><h2>Settings</h2><p>Console preferences — demo placeholders, not persisted</p></div></div>
@@ -486,11 +567,34 @@ tr:hover td{background:var(--panel-2); cursor:pointer;}
   </div>
   <div class="d-stats" id="dDrawerStats"></div>
   <canvas id="dDrawerChart" style="max-height:160px;"></canvas>
-  <div class="d-section-title">Recent events</div>
+  <div class="d-section-title">Monthly Consumption</div>
   <div class="feed" id="dDrawerFeed" style="max-height:200px;"></div>
   <div class="d-section-title">Location</div>
   <div id="dDrawerMap" style="height:160px; border-radius:8px; border:1px solid var(--line);"></div>
 </div>
+
+<!-- Notification Panel -->
+<div class="notif-overlay" id="notifOverlay"></div>
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <h4>Notifications</h4>
+      <span class="notif-badge" id="notifBadge">0</span>
+    </div>
+    <div class="notif-head-right">
+      <span class="notif-clear" id="notifClear">Mark all read</span>
+      <span class="notif-close" id="notifClose">✕</span>
+    </div>
+  </div>
+  <div class="notif-tabs" id="notifTabs">
+    <div class="notif-tab active" data-filter="all">All</div>
+    <div class="notif-tab" data-filter="alert">Critical</div>
+    <div class="notif-tab" data-filter="warn">Warnings</div>
+    <div class="notif-tab" data-filter="ok">Resolved</div>
+  </div>
+  <div class="notif-list" id="notifList"></div>
+</div>
+
 
 <script>
 /* =================================================================
@@ -507,6 +611,8 @@ const CITIES = [
   {name:"Chennai", lat:13.0827, lng:80.2707},
 ];
 function rand(min,max){return Math.random()*(max-min)+min;}
+const UNIT = 'SCMH';
+const ACCENT_COLOR = '#e8923a';
 function randChoice(arr){return arr[Math.floor(Math.random()*arr.length)];}
 function cssVar(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
 function minutesAgo(date){
@@ -532,6 +638,7 @@ CITIES.forEach(city=>{
       pressure: rand(1.8,4.2),
       battery: rand(38,100),
       status: "ok",
+      type: ['Bulk','Residential','Commercial','Industrial'][Math.floor(Math.random()*4)],
       freshness: Math.random() < 0.55 ? "hourly" : "daily",
       lastSync: new Date(Date.now() - rand(2,55)*60000),
     });
@@ -539,6 +646,59 @@ CITIES.forEach(city=>{
 });
 function aggregateFlow(list){ return (list||meters).reduce((s,m)=>s+m.flow,0); }
 function byCity(city){ return meters.filter(m=>m.city===city); }
+
+/* ============================================================
+   INDUSTRIAL & COMMERCIAL CUSTOMER REGISTRY
+   ============================================================ */
+const IND_NAMES = [
+  "Bharat Steel & Alloys Ltd","Tata Metaliks Processing","Reliance Petrochemicals","Adani Energy Works",
+  "JSW Cement Industries","Hindalco Aluminium Plant","SAIL Pipe Division","Marico Manufacturing Unit",
+  "Gujarat Borosil Glass","Ultratech Ready Mix","Sun Pharma Active Ingredients","Dr Reddy Bulk API Plant",
+  "HPCL Lube Blending","Asian Paints Pigment Unit","Godrej Agrovet Feed Mill","Amul Dairy Processing",
+  "Haldirams Food Processing","Parle Products Factory","ITC Paperboard Mill","Balaji Wafers Plant"
+];
+const COM_NAMES = [
+  "Phoenix Market City Mall","DLF CyberHub Office Complex","Oberoi Grand Hotel","Taj Lands End Mumbai",
+  "Apollo Hospitals Multi-Speciality","Fortis Health City","RMZ Millenia Tech Park","Embassy Golf Links",
+  "Select CityWalk Saket","Nexus Shantiniketan Mall","Lemon Tree Premier Hotel","Marriott Courtyard Pune",
+  "Manipal Hospital Whitefield","Columbia Asia Hospital","WeWork Galaxy","Awfis CoWork Hub",
+  "IMAX PVR Multiplex","Radisson Blu Airport","Rainbow International School","EduComp Campus Complex"
+];
+const STREETS = [
+  "Phase II, GIDC Industrial Estate","Block A, MIDC Andheri East","Plot 14, SEZ Industrial Park",
+  "Survey No. 89, Peenya Industrial Area","Sector 59, Manesar Industrial Belt","Unit 7, Ambattur Industrial Estate",
+  "Wing C, Navi Mumbai Industrial Zone","12/B, Bommasandra Industrial Area","F-16, Sahibabad Industrial Area",
+  "Plot 22, SIPCOT High Tech Park","3rd Floor, UB City Commercial","Tower 2, Bandra Kurla Complex",
+  "MG Road, Central Business District","Jubilee Hills Road No. 36","Salt Lake Sector V IT Corridor",
+  "Hitech City, HITEC City Road","Whitefield Main Road, Brookfield","VIP Road, New Town Action Area"
+];
+
+function genMonthlyConsumption(baseFlow, type){
+  // 12 months of plausible consumption — industrial peaks mid-year, commercial peaks winter
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const seasonalFactor = type==='Industrial'
+    ? [0.9,0.92,1.0,1.05,1.1,1.12,1.08,1.05,1.02,0.98,0.95,0.88]
+    : [1.05,1.02,0.98,0.95,0.9,0.88,0.92,0.95,1.0,1.05,1.08,1.1];
+  return months.map((m,i)=>({
+    month: m,
+    value: Math.round(baseFlow * seasonalFactor[i] * rand(0.92,1.08) * 720) // hourly→monthly
+  }));
+}
+
+// Attach customer data to Industrial + Commercial meters
+const IND_POOL = [...IND_NAMES]; const COM_POOL = [...COM_NAMES]; const ST_POOL = [...STREETS];
+meters.forEach(m=>{
+  if(!m.type) m.type = ['Bulk','Residential','Commercial','Industrial'][Math.floor(Math.random()*4)];
+  if(m.type==='Industrial'||m.type==='Commercial'){
+    const pool = m.type==='Industrial' ? IND_POOL : COM_POOL;
+    m.custName = pool.length ? pool.splice(Math.floor(Math.random()*pool.length),1)[0]
+                             : (m.type==='Industrial'?'Industrial Customer':'Commercial Customer')+' '+m.id;
+    m.address  = ST_POOL.length ? ST_POOL.splice(Math.floor(Math.random()*ST_POOL.length),1)[0]
+                                : 'Industrial Area, '+m.city;
+    m.monthly  = genMonthlyConsumption(m.flow, m.type);
+  }
+});
+
 
 /* ---------- THEME ---------- */
 const themeToggle = document.getElementById('themeToggle');
@@ -550,7 +710,7 @@ themeToggle.addEventListener('click', (e)=>{
   document.getElementById('settingsThemeSwitch').classList.toggle('on', theme==='dark');
   setMapTheme();
   refreshDrawerMapTheme();
-  setTimeout(()=>{ if(gasMap) gasMap.invalidateSize(); }, 260);
+  requestAnimationFrame(()=>{ if(gasMap) gasMap.invalidateSize(); });
 });
 document.getElementById('settingsThemeSwitch').addEventListener('click', function(){
   const isOn = this.classList.toggle('on');
@@ -592,7 +752,13 @@ navItems.forEach(item=>{
     views.forEach(view=>view.classList.toggle('active', view.id==='view-'+v));
     crumbView.textContent = item.dataset.label;
     closeMobileSidebar();
-    if(v==='map'){ initMapIfNeeded(); setTimeout(()=>gasMap && gasMap.invalidateSize(), 280); renderMapMarkers(); }
+    if(v==='map'){
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        initMapIfNeeded();
+        if(gasMap) gasMap.invalidateSize();
+        renderMapMarkers();
+      }));
+    }
     if(v==='meters') renderMeterList();
     if(v==='alarms') renderAlarmsView();
   });
@@ -601,11 +767,11 @@ navItems.forEach(item=>{
 /* ---------- KPI STRIP ---------- */
 const kpiRow = document.getElementById('kpiRow');
 const kpiDefs = [
-  {id:'online', label:'Meters Online', color:'var(--ok)'},
-  {id:'flow', label:'Total Draw (SCMH)', color:'var(--gas)'},
+  {id:'online',   label:'Meters Online',     color:'var(--ok)'},
   {id:'pressure', label:'Avg Pressure (bar)', color:'var(--gas)'},
-  {id:'battery', label:'Avg Battery', color:'var(--ok)'},
-  {id:'alerts', label:'Active Alerts', color:'var(--alert)'},
+  {id:'indcons',  label:'Industrial Consumption', color:'var(--gas)'},
+  {id:'comcons',  label:'Commercial Consumption', color:'var(--gas)'},
+  {id:'alerts',   label:'Active Alerts',      color:'var(--alert)'},
 ];
 kpiRow.innerHTML = kpiDefs.map(k=>`<div class="kpi"><div class="accent" style="background:${k.color}"></div>
   <div class="label">${k.label}</div><div class="value" id="kpi-${k.id}">--</div><div class="delta up" id="kpi-${k.id}-d">+0.0%</div></div>`).join('');
@@ -617,13 +783,16 @@ function randDelta(){ return (Math.random()>0.5?'+':'-')+rand(0.2,3.4).toFixed(1
 function updateKPIs(){
   const online = meters.filter(m=>m.status!=='off').length;
   const alerts = meters.filter(m=>m.status==='alert').length;
-  const avgP = meters.reduce((s,m)=>s+m.pressure,0)/meters.length;
-  const avgB = meters.reduce((s,m)=>s+m.battery,0)/meters.length;
-  setKpi('online', `${online}/${meters.length}`, `${(online/meters.length*100).toFixed(1)}% uptime`, true);
-  setKpi('flow', aggregateFlow().toFixed(0), randDelta(), Math.random()>0.4);
-  setKpi('pressure', avgP.toFixed(2), randDelta(), Math.random()>0.5);
-  setKpi('battery', avgB.toFixed(0)+'%', randDelta(), avgB>50);
-  setKpi('alerts', alerts, alerts>0?`${alerts} need review`:'all clear', alerts===0);
+  const avgP   = meters.reduce((s,m)=>s+m.pressure,0)/meters.length;
+  const indCons = meters.filter(m=>m.type==='Industrial' && m.monthly)
+                        .reduce((s,m)=>s+m.monthly.reduce((a,b)=>a+b.value,0),0);
+  const comCons = meters.filter(m=>m.type==='Commercial' && m.monthly)
+                        .reduce((s,m)=>s+m.monthly.reduce((a,b)=>a+b.value,0),0);
+  setKpi('online',   `${online}/${meters.length}`, `${(online/meters.length*100).toFixed(1)}% uptime`, true);
+  setKpi('pressure', avgP.toFixed(2)+' bar', randDelta(), avgP>2&&avgP<5.5);
+  setKpi('indcons',  (indCons/1000).toFixed(1)+' K '+"SCMH", '▲ industrial', true);
+  setKpi('comcons',  (comCons/1000).toFixed(1)+' K '+"SCMH", '▲ commercial', true);
+  setKpi('alerts',   alerts, alerts>0?`${alerts} need review`:'all clear', alerts===0);
   document.getElementById('navAlarmCount').textContent = meters.filter(m=>m.status==='alert'||m.status==='warn').length;
   document.getElementById('bellPing').style.display = alerts>0 ? 'block':'none';
 }
@@ -640,9 +809,16 @@ function pushEvent(meter, severity){
   const time = new Date().toTimeString().slice(0,8);
   const entry = {time, msg, severity, meter, acked:false};
   eventLog.unshift(entry);
-  if(eventLog.length>120) eventLog.pop();
+  if(eventLog.length>200) eventLog.pop();
   renderFeed('feedOverview', eventLog.slice(0,30));
   if(currentMeterInDrawer===meter) renderDrawerFeed(meter);
+  // live-update alarms view if it's open
+  const av = document.querySelector('.view.active');
+  if(av && av.id==='view-alarms') renderAlarmsView();
+  // update nav badge
+  document.getElementById('navAlarmCount').textContent =
+    meters.filter(m=>m.status==='alert'||m.status==='warn').length;
+  if(notifPanel && notifPanel.classList.contains('open')) renderNotifList();
 }
 function renderFeed(elId, list){
   const el = document.getElementById(elId); if(!el) return;
@@ -656,18 +832,101 @@ function renderFeed(elId, list){
 /* ---------- CHARTS ---------- */
 Chart.defaults.font.family = "'IBM Plex Mono', monospace";
 Chart.defaults.font.size = 10;
-function makeLineChart(ctx, colorVar, points=24){
+// Utility: make line chart still used for mini drawer chart
+function makeLineChart(ctx, colorVar, points=20){
   const color = cssVar(colorVar);
   return new Chart(ctx, { type:'line',
     data:{ labels:Array(points).fill(''), datasets:[{ data:Array(points).fill(0), borderColor:color, backgroundColor:color+'26', fill:true, tension:.35, pointRadius:0, borderWidth:2 }] },
     options:{ animation:{duration:300}, plugins:{legend:{display:false}},
       scales:{ x:{display:false}, y:{grid:{color:cssVar('--line')}, ticks:{maxTicksLimit:4, color:cssVar('--muted')}} } } });
 }
-function seedChart(chart){ const base=aggregateFlow(); for(let i=0;i<chart.data.datasets[0].data.length;i++) chart.data.datasets[0].data[i]=base*rand(0.85,1.1); chart.update(); }
 function pushChartVal(chart,val){ chart.data.datasets[0].data.push(val); chart.data.datasets[0].data.shift(); chart.update('none'); }
-const chartGas = makeLineChart(document.getElementById('chartGas'),'--gas'); seedChart(chartGas);
+
+/* ---- Monthly & Category Charts ---- */
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let chartMonthly=null, chartCategory=null;
+
+function buildMonthlyData(){
+  // aggregate monthly arrays from Industrial+Commercial, simulate rest
+  const base = aggregateFlow();
+  const seasonal = [0.88,0.90,0.95,1.00,1.06,1.10,1.08,1.04,1.00,0.97,0.93,0.88];
+  return MONTHS.map((m,i)=>{
+    const fromCust = meters.filter(x=>x.monthly).reduce((s,x)=>s+(x.monthly[i]?.value||0),0);
+    const fromRest = (meters.filter(x=>!x.monthly).length * base/meters.length * seasonal[i] * 720);
+    return Math.round(fromCust + fromRest);
+  });
+}
+
+function buildCategoryData(){
+  const cats = {'Industrial':0,'Commercial':0,'Residential':0,'Bulk':0};
+  meters.forEach(m=>{ cats[m.type||'Residential'] = (cats[m.type||'Residential']||0) + m.flow; });
+  return cats;
+}
+
+function initDashboardCharts(){
+  const color = cssVar('--gas');
+  const monthly = buildMonthlyData();
+
+  // Monthly bar — update data only if chart already exists (no flicker)
+  const elM = document.getElementById('chartMonthly');
+  if(elM){
+    if(chartMonthly){
+      chartMonthly.data.datasets[0].data = monthly;
+      chartMonthly.data.datasets[0].backgroundColor = MONTHS.map((_,i)=>i===new Date().getMonth()?color:color+'77');
+      chartMonthly.update('none');
+    } else {
+      chartMonthly = new Chart(elM,{
+        type:'bar',
+        data:{ labels:MONTHS, datasets:[{ data:monthly,
+          backgroundColor:MONTHS.map((_,i)=>i===new Date().getMonth()?color:color+'77'),
+          borderRadius:5, borderSkipped:false }] },
+        options:{ animation:{duration:600}, plugins:{legend:{display:false}},
+          scales:{ x:{grid:{display:false},ticks:{color:cssVar('--muted')}},
+                   y:{grid:{color:cssVar('--line')},ticks:{color:cssVar('--muted'),maxTicksLimit:5}} } }
+      });
+    }
+  }
+
+  // Category bar — update only
+  const cats = buildCategoryData();
+  const elC = document.getElementById('chartCategory');
+  if(elC){
+    if(chartCategory){
+      chartCategory.data.datasets[0].data = Object.values(cats);
+      chartCategory.update('none');
+    } else {
+      chartCategory = new Chart(elC,{
+        type:'bar',
+        data:{ labels:Object.keys(cats), datasets:[{ data:Object.values(cats),
+          backgroundColor:['#e8923a','#1a9ed4','#2bb673','#9b6dff'],
+          borderRadius:5, borderSkipped:false }] },
+        options:{ animation:{duration:600}, indexAxis:'y', plugins:{legend:{display:false}},
+          scales:{ x:{grid:{color:cssVar('--line')},ticks:{color:cssVar('--muted'),maxTicksLimit:4}},
+                   y:{grid:{display:false},ticks:{color:cssVar('--text-dim')}} } }
+      });
+    }
+  }
+}
+/* monthly bar chart initialised in initDashboardCharts() */
 
 /* ---------- CITY BARS / TOP TABLE ---------- */
+function custLabel(m){ return m.custName ? `<span style="font-weight:600">${m.custName}</span><br><span style="font-size:10px;color:var(--muted)">${m.id}</span>` : m.id; }
+function custType(m){ return m.type||'Residential'; }
+function top5Row(m, rank){
+  return `<tr onclick="openMeterDrawer('${m.id}')">
+    <td style="font-weight:700;color:var(--accent);font-size:13px;">#${rank}</td>
+    <td>${custLabel(m)}</td><td>${m.city}</td>
+    <td><span class="badge ok" style="background:${m.type==='Industrial'?'rgba(155,109,255,.15)':m.type==='Commercial'?'rgba(26,158,212,.15)':'var(--panel-3)'}; color:${m.type==='Industrial'?'#9b6dff':m.type==='Commercial'?'var(--water)':'var(--muted)'}">${custType(m)}</span></td>
+    <td class="flow">${m.flow.toFixed(2)} SCMH</td>
+    <td><span class="badge ${m.status}">${m.status.toUpperCase()}</span></td></tr>`;
+}
+function renderTop5Least5(){
+  const active = meters.filter(m=>m.status!=='off').sort((a,b)=>b.flow-a.flow);
+  const top5 = active.slice(0,5);
+  const least5 = active.slice(-5).reverse();
+  document.getElementById('top5Table').innerHTML = top5.map((m,i)=>top5Row(m,i+1)).join('')||'<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:16px;">No data yet</td></tr>';
+  document.getElementById('least5Table').innerHTML = least5.map((m,i)=>top5Row(m,i+1)).join('')||'<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:16px;">No data yet</td></tr>';
+}
 function renderCityBars(){
   const totals = CITIES.map(c=>({name:c.name, total: aggregateFlow(byCity(c.name))}));
   const max = Math.max(...totals.map(t=>t.total),1);
@@ -676,12 +935,7 @@ function renderCityBars(){
       <div class="zonebar-track"><div class="zonebar-fill" style="width:${(t.total/max*100).toFixed(0)}%"></div></div>
       <div class="zonebar-val">${t.total.toFixed(1)}</div></div>`).join('');
 }
-function renderTopTable(){
-  const top = meters.slice().sort((a,b)=>b.flow-a.flow).slice(0,8);
-  document.getElementById('topMetersTable').innerHTML = top.map(m=>`
-    <tr onclick="openMeterDrawer('${m.id}')"><td>${m.id}</td><td>${m.city}</td><td class="flow">${m.flow.toFixed(2)}</td>
-    <td><span class="badge ${m.status}">${m.status.toUpperCase()}</span></td></tr>`).join('');
-}
+// renderTopTable removed — replaced by renderTop5Least5
 
 /* ---------- LEAFLET MAP ---------- */
 let gasMap, markerCluster, mapInited=false, gasTileLayer=null;
@@ -740,6 +994,7 @@ function initMapIfNeeded(){
     if(clusterTip){ gasMap.removeLayer(clusterTip); clusterTip = null; }
   });
   mapInited = true;
+  new ResizeObserver(()=>{ if(gasMap) gasMap.invalidateSize(); }).observe(document.getElementById('gasMap'));
 }
 function renderMapMarkers(){
   if(!mapInited) return;
@@ -774,15 +1029,15 @@ document.getElementById('viewModeSeg').addEventListener('click', (e)=>{
 });
 const cityFilterSel = document.getElementById('cityFilter');
 CITIES.forEach(c=>{ const o=document.createElement('option'); o.value=c.name; o.textContent=c.name; cityFilterSel.appendChild(o); });
-['cityFilter','statusFilter','meterSearch'].forEach(id=>document.getElementById(id).addEventListener('input', renderMeterList));
+['cityFilter','statusFilter','typeFilter','meterSearch'].forEach(id=>document.getElementById(id).addEventListener('input', renderMeterList));
 
 function filteredMeters(){
-  const city = cityFilterSel.value, status = document.getElementById('statusFilter').value, q = document.getElementById('meterSearch').value.trim().toLowerCase();
-  return meters.filter(m=> (city==='all'||m.city===city) && (status==='all'||m.status===status) && (!q||m.id.toLowerCase().includes(q)) );
+  const city = cityFilterSel.value, status = document.getElementById('statusFilter').value, type = document.getElementById('typeFilter').value, q = document.getElementById('meterSearch').value.trim().toLowerCase();
+  return meters.filter(m=> (city==='all'||m.city===city) && (status==='all'||m.status===status) && (type==='all'||m.type===type) && (!q||(m.id+' '+(m.custName||'')).toLowerCase().includes(q)) );
 }
 function renderMeterList(){
   const list = filteredMeters();
-  document.getElementById('invCountTag').textContent = list.length + ' meters';
+  document.getElementById('invCountTag').textContent = list.length + ' customers';
   const wrap = document.getElementById('meterListWrap');
   const grouped = {};
   list.forEach(m=>{ (grouped[m.city] = grouped[m.city]||[]).push(m); });
@@ -795,7 +1050,15 @@ function renderMeterList(){
         <div class="city-section-head"><h4>${city}</h4><span class="count">${grouped[city].length} meters</span></div>
         <div class="meter-cards">${grouped[city].map(m=>`
           <div class="meter-card" onclick="openMeterDrawer('${m.id}')">
-            <div class="mc-top"><div class="mc-id">${m.id}</div><span class="badge ${m.status}">${m.status.toUpperCase()}</span></div>
+            <div class="mc-top">
+              <div>
+                <div class="mc-id">${m.custName || m.id}</div>
+                ${m.custName ? `<div style="font-size:10px;font-family:var(--font-mono);color:var(--muted);margin-top:1px;">${m.id}</div>` : ''}
+              </div>
+              <span class="badge ${m.status}">${m.status.toUpperCase()}</span>
+            </div>
+            ${m.custName ? `<div style="font-size:10.5px;color:var(--muted);margin-top:4px;display:flex;align-items:flex-start;gap:4px;"><svg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' style='flex-shrink:0;margin-top:1px'><path d='M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z'/><circle cx='12' cy='10' r='3'/></svg>${m.address}, ${m.city}</div>` : ''}
+            <div style="font-size:10px;color:var(--muted);font-family:var(--font-mono);margin-top:3px;">${m.type||'Residential'}</div>
             <div class="mc-flow">${m.flow.toFixed(1)} <span>SCMH</span></div>
             <div class="mc-meta">Pressure ${m.pressure.toFixed(1)} bar · Battery ${m.battery.toFixed(0)}%</div>
             <div class="mc-meta" style="margin-top:4px;"><span class="freshness-tag"><i></i>Updates ${m.freshness} · synced ${minutesAgo(m.lastSync)}</span></div>
@@ -806,12 +1069,17 @@ function renderMeterList(){
       <div class="city-section">
         <div class="city-section-head"><h4>${city}</h4><span class="count">${grouped[city].length} meters</span></div>
         <div class="panel" style="padding:6px 12px;">
-          <table><thead><tr><th>Meter ID</th><th>Reading</th><th>Flow</th><th>Pressure</th><th>Battery</th><th>Updates</th><th>Status</th></tr></thead>
-          <tbody>${grouped[city].map(m=>`
-            <tr onclick="openMeterDrawer('${m.id}')"><td>${m.id}</td><td>${m.reading.toFixed(1)}</td>
-            <td class="flow">${m.flow.toFixed(2)} SCMH</td><td>${m.pressure.toFixed(2)} bar</td><td>${m.battery.toFixed(0)}%</td>
-            <td>${m.freshness} · ${minutesAgo(m.lastSync)}</td>
-            <td><span class="badge ${m.status}">${m.status.toUpperCase()}</span></td></tr>`).join('')}</tbody></table>
+          <table><thead><tr><th>Customer Name</th><th>Meter ID</th><th>Category</th><th>Address</th><th>Flow (SCMH)</th><th>Pressure</th><th>Battery</th><th>Status</th></tr></thead>
+          <tbody>${grouped[city].map(m=>`<tr onclick="openMeterDrawer('${m.id}')">
+              <td><b style="font-size:12px">${m.custName || '—'}</b></td>
+              <td style="color:var(--muted);font-size:10.5px">${m.id}</td>
+              <td><span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;border-radius:5px;background:var(--panel-3);border:1px solid var(--line)">${m.type||'Residential'}</span></td>
+              <td style="font-size:11px;color:var(--muted)">${m.custName ? (m.address+', '+m.city) : m.city}</td>
+              <td class="flow">${m.flow.toFixed(2)}</td>
+              <td>${m.pressure.toFixed(2)} bar</td>
+              <td>${m.battery.toFixed(0)}%</td>
+              <td><span class="badge ${m.status}">${m.status.toUpperCase()}</span></td>
+            </tr>`).join('')}</tbody></table>
         </div>
       </div>`).join('');
   }
@@ -823,13 +1091,29 @@ const meterDrawer = document.getElementById('meterDrawer');
 let currentMeterInDrawer = null;
 let drawerChart = null, drawerMap = null;
 document.getElementById('drawerCloseBtn').addEventListener('click', closeMeterDrawer);
-drawerOverlay.addEventListener('click', closeMeterDrawer);
+drawerOverlay.addEventListener('click', ()=>{
+  closeMeterDrawer();
+    document.getElementById('drawerOverlay').classList.remove('open');
+});
 function closeMeterDrawer(){ drawerOverlay.classList.remove('open'); meterDrawer.classList.remove('open'); currentMeterInDrawer=null; }
 
 function openMeterDrawer(id){
   const m = meters.find(x=>x.id===id); if(!m) return;
   currentMeterInDrawer = m;
-  document.getElementById('dDrawerId').textContent = m.id;
+  document.getElementById('dDrawerId').textContent = m.custName || m.id;
+  // customer address strip
+  let addrEl = document.getElementById('dCustAddr');
+  if(!addrEl){
+    addrEl = document.createElement('div');
+    addrEl.id = 'dCustAddr';
+    addrEl.style = 'font-size:11.5px;color:var(--muted);display:flex;align-items:flex-start;gap:5px;margin-bottom:10px;';
+    document.getElementById('dDrawerSub').insertAdjacentElement('afterend', addrEl);
+  }
+  if(m.custName){
+    addrEl.innerHTML = `<svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' style='flex-shrink:0;margin-top:1px'><path d='M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z'/><circle cx='12' cy='10' r='3'/></svg>${m.address}, ${m.city}`;
+    addrEl.style.display='flex';
+  } else { addrEl.style.display='none'; }
+  document.getElementById('dDrawerId').textContent = m.custName || m.id;
   document.getElementById('dDrawerSub').innerHTML = `${m.city} · <span style="color:${statusColor(m.status)}">${m.status.toUpperCase()}</span>`;
   document.getElementById('dDrawerStats').innerHTML = [
     ['Reading', m.reading.toFixed(1)+' SCM'],
@@ -841,9 +1125,26 @@ function openMeterDrawer(id){
   ].map(([l,v])=>`<div class="ds"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
 
   if(drawerChart) drawerChart.destroy();
-  drawerChart = makeLineChart(document.getElementById('dDrawerChart'),'--gas',20);
-  for(let i=0;i<20;i++) drawerChart.data.datasets[0].data[i] = m.flow*rand(0.8,1.15);
-  drawerChart.update();
+  if(drawerChart) drawerChart.destroy();
+  const dCtx = document.getElementById('dDrawerChart');
+  if(m.monthly){
+    drawerChart = new Chart(dCtx,{type:'bar',
+      data:{labels:m.monthly.map(d=>d.month), datasets:[{data:m.monthly.map(d=>d.value),
+        backgroundColor:cssVar('--gas')+'aa', borderRadius:4, borderSkipped:false}]},
+      options:{plugins:{legend:{display:false}},
+        scales:{x:{grid:{display:false},ticks:{color:cssVar('--muted'),font:{size:9}}},
+                 y:{grid:{color:cssVar('--line')},ticks:{color:cssVar('--muted'),maxTicksLimit:4}}}}
+    });
+  } else {
+    const sparkData = Array(12).fill(0).map(()=>m.flow*rand(0.85,1.15));
+    drawerChart = new Chart(dCtx,{type:'bar',
+      data:{labels:MONTHS, datasets:[{data:sparkData,
+        backgroundColor:cssVar('--gas')+'88', borderRadius:4, borderSkipped:false}]},
+      options:{plugins:{legend:{display:false}},
+        scales:{x:{grid:{display:false},ticks:{color:cssVar('--muted'),font:{size:9}}},
+                 y:{grid:{color:cssVar('--line')},ticks:{color:cssVar('--muted'),maxTicksLimit:4}}}}
+    });
+  }
 
   renderDrawerFeed(m);
 
@@ -967,6 +1268,8 @@ function generateReport(type){
   doc.save(`altrex-gas-${type}-report.pdf`);
 }
 
+
+
 /* ---------- CLOCK ---------- */
 function tickClock(){
   const t = new Date().toTimeString().slice(0,8);
@@ -986,20 +1289,19 @@ function simulateTick(){
     const syncChance = m.freshness==='hourly' ? 0.02 : 0.003;
     if(Math.random() < syncChance) m.lastSync = new Date();
   });
-  if(Math.random()<0.35){
+  if(Math.random()<0.55){   // was 0.35 — more frequent status changes
     const m = randChoice(meters);
     const roll = Math.random();
     let ns = m.status;
-    if(roll<0.06) ns='alert'; else if(roll<0.18) ns='warn'; else if(roll<0.21) ns='off'; else ns='ok';
+    if(roll<0.10) ns='alert'; else if(roll<0.28) ns='warn'; else if(roll<0.32) ns='off'; else ns='ok';
     if(ns!==m.status){
       m.status = ns;
-      if(ns==='warn') pushEvent(m,'warn');
+      if(ns==='warn')  pushEvent(m,'warn');
       if(ns==='alert') pushEvent(m,'alert');
-      if(ns==='ok' && Math.random()<0.3) pushEvent(m,'ok');
+      if(ns==='ok' && Math.random()<0.4) pushEvent(m,'ok');
     }
   }
-  updateKPIs(); renderCityBars(); renderTopTable();
-  pushChartVal(chartGas, aggregateFlow());
+  updateKPIs(); renderCityBars(); renderTop5Least5();
 
   const activeView = document.querySelector('.view.active').id;
   if(activeView==='view-map') renderMapMarkers();
@@ -1008,13 +1310,97 @@ function simulateTick(){
   if(currentMeterInDrawer){
     const m = currentMeterInDrawer;
     document.getElementById('dDrawerSub').innerHTML = `${m.city} · <span style="color:${statusColor(m.status)}">${m.status.toUpperCase()}</span>`;
-    if(drawerChart) pushChartVal(drawerChart, m.flow);
   }
 }
 
 /* ---------- INITIAL PAINT ---------- */
-updateKPIs(); renderCityBars(); renderTopTable(); renderFeed('feedOverview',[]);
+// Seed 15 realistic startup events so alarms view is populated immediately
+(function seedEvents(){
+  const severities = ['alert','warn','warn','ok','alert','warn','ok','warn','alert','ok','warn','alert','warn','ok','ok'];
+  severities.forEach((sev, i)=>{
+    const m = meters[Math.floor(Math.random()*meters.length)];
+    const msg = randChoice(eventTemplates[sev]);
+    const minsAgo = (severities.length - i) * rand(2, 8);
+    const t = new Date(Date.now() - minsAgo*60000);
+    const time = t.toTimeString().slice(0,8);
+    if(sev !== 'ok') m.status = sev;
+    eventLog.push({time, msg, severity:sev, meter:m, acked:false});
+  });
+})();
+updateKPIs(); renderCityBars(); renderTop5Least5(); renderFeed('feedOverview', eventLog.slice(0,30));
+requestAnimationFrame(()=>requestAnimationFrame(initDashboardCharts));
+
 setInterval(simulateTick, 1800);
+
+/* ===== NOTIFICATION PANEL ===== */
+let notifFilter = 'all';
+let notifRead = new Set();
+
+// Notification panel — wired after DOM ready (elements injected above)
+const notifPanel   = document.getElementById('notifPanel');
+const notifOverlay = document.getElementById('notifOverlay');
+const bellBtn      = document.getElementById('bellBtn');
+
+function openNotifPanel(){
+  if(!notifPanel||!notifOverlay) return;
+  notifPanel.classList.add('open');
+  notifOverlay.classList.add('open');
+  renderNotifList();
+}
+function closeNotifPanel(){
+  if(!notifPanel||!notifOverlay) return;
+  notifPanel.classList.remove('open');
+  notifOverlay.classList.remove('open');
+}
+if(bellBtn) bellBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  notifPanel && notifPanel.classList.contains('open') ? closeNotifPanel() : openNotifPanel();
+});
+if(notifOverlay) notifOverlay.addEventListener('click', closeNotifPanel);
+const _notifClose = document.getElementById('notifClose');
+if(_notifClose) _notifClose.addEventListener('click', closeNotifPanel);
+const _notifClear = document.getElementById('notifClear');
+if(_notifClear) _notifClear.addEventListener('click', ()=>{
+  eventLog.forEach((_,i)=>notifRead.add(i));
+  const bp = document.getElementById('bellPing'); if(bp) bp.style.display='none';
+  renderNotifList();
+});
+const _notifTabs = document.getElementById('notifTabs');
+if(_notifTabs) _notifTabs.addEventListener('click', e=>{
+  const t = e.target.closest('.notif-tab'); if(!t) return;
+  document.querySelectorAll('.notif-tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); notifFilter = t.dataset.filter; renderNotifList();
+});
+
+function renderNotifList(){
+  const list = notifFilter==='all' ? eventLog : eventLog.filter(e=>e.severity===notifFilter);
+  const badge = eventLog.filter((_,i)=>!notifRead.has(i)).length;
+  document.getElementById('notifBadge').textContent = badge;
+  document.getElementById('notifBadge').style.display = badge ? 'inline' : 'none';
+  const el = document.getElementById('notifList');
+  if(!list.length){
+    el.innerHTML = '<div class="notif-empty">No events in this category</div>';
+    return;
+  }
+  el.innerHTML = list.slice(0,50).map((ev, i)=>{
+    const color = ev.severity==='alert'?'var(--alert)':ev.severity==='warn'?'var(--warn)':'var(--ok)';
+    const unread = !notifRead.has(eventLog.indexOf(ev));
+    return `<div class="notif-item" onclick="notifRead.add(${eventLog.indexOf(ev)}); openMeterDrawer('${ev.meter.id}'); closeNotifPanel(); renderNotifList();">
+      <div class="notif-dot" style="background:${color};${ev.severity==='alert'?'box-shadow:0 0 6px '+color:''}"></div>
+      <div class="notif-body">
+        <b${unread?' style="color:var(--text)"':''}>${ev.msg}</b>
+        <div class="nm">${ev.meter.id} · ${ev.meter.city}${ev.meter.custName?' · '+ev.meter.custName:''}</div>
+        <div class="nt">${ev.time}${unread?' &nbsp;<span style="color:var(--accent);font-size:9px">● NEW</span>':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Refresh panel badge whenever a new event is pushed
+const _origPushEvent = pushEvent;
+// (pushEvent already calls updateKPIs which sets bellPing — we just keep panel fresh)
+
 </script>
+
 </body>
 </html>
